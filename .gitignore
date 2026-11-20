@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# PyInstaller build output
+build/
+dist/
+*.spec
+
+# Secrets and local configuration (never commit API keys)
+.env
+.env.*
+config.json
+crash.log
+scanner.log
+*.log
+
+# Scanner runtime data, written into scanned project folders
+# (keep .nyxtral_baseline.json / _exclusions.json tracked if you want to share them with your team)
+.nyxtral_cache.json
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Installer output
+installer_output/

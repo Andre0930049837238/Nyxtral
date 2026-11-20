@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nyxtral</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header class="titlebar pywebview-drag-region">
+    <span class="brand pywebview-drag-region"><img class="logo" src="logo.svg" alt="">Nyxtral</span>
+    <div class="win">
+      <button id="w-min" title="Minimize"><i data-ico="min"></i></button>
+      <button id="w-max" title="Maximize"><i data-ico="max"></i></button>
+      <button id="w-close" class="close" title="Close"><i data-ico="x"></i></button>
+    </div>
+  </header>
+
+  <aside class="side">
+    <div id="side-work" class="sidewrap">
+      <div class="group">
+        <div class="label">Project folder</div>
+        <div class="folder"><span id="folder" class="path" title="">No folder</span>
+          <button id="b-browse" class="btn">Browse</button></div>
+        <button id="b-scan" class="btn primary wide" disabled><i data-ico="play"></i>Scan</button>
+        <button id="b-stop" class="btn wide" hidden><i data-ico="stop"></i>Stop</button>
+      </div>
+      <nav class="group">
+        <div class="label">Actions</div>
+        <button id="b-deps" class="nav" disabled><i data-ico="pkg"></i>Check dependencies</button>
+        <button id="b-report" class="nav" disabled><i data-ico="doc"></i>Generate PDF report</button>
+        <button id="b-excl" class="nav" disabled><i data-ico="eye"></i>Excluded files <span id="n-excl" class="count"></span></button>
+      </nav>
+      <div class="mid">
+      <section class="group glance">
+        <div class="label">Last scan</div>
+        <dl class="kv">
+          <div><dt>Files analyzed</dt><dd id="g-files">–</dd></div>
+          <div><dt>Reused from cache</dt><dd id="g-cache">–</dd></div>
+          <div><dt>Active issues</dt><dd id="g-act">–</dd></div>
+          <div><dt>Ignored</dt><dd id="g-sup">–</dd></div>
+        </dl>
+      </section>
+      <section class="group showcase">
+        <div class="label">Languages</div>
+        <div id="logos" class="logos"></div>
+      </section>
+      </div>
+      <button id="b-settings" class="nav"><i data-ico="gear"></i>Settings</button>
+    </div>
+    <div id="side-set" class="sidewrap" hidden>
+      <button id="b-back" class="nav"><i data-ico="back"></i>Back to results</button>
+      <div class="grp"><div class="ghead"><i data-ico="folder"></i>General<i data-ico="chev" class="r"></i></div>
+        <div class="subnav"><button data-p="project">Project</button><button data-p="excluded">Excluded files</button><button data-p="ignored">Ignored issues</button></div></div>
+      <hr class="sep"><div class="label">Product</div>
+      <button class="nav" data-p="scan"><i data-ico="sliders"></i>Scanning</button>
+      <hr class="sep">
+      <button class="nav" data-p="info"><i data-ico="info"></i>About</button>
+    </div>
+  </aside>
+
+  <main id="view-work">
+    <div id="progress" class="progress" hidden><div class="bar"><div id="bar-fill"></div></div><span id="progress-text"></span></div>
+    <section class="stats">
+      <div class="stat"><div class="stat-t">Security</div><div class="stat-v" id="s-sec">–</div></div>
+      <div class="stat"><div class="stat-t">Code quality</div><div class="stat-v" id="s-qua">–</div></div>
+      <div class="stat wide-stat"><div class="stat-t">Active issues</div><div id="s-sev" class="sevline">No scan has been run yet</div></div>
+    </section>
+    <section class="toolbar">
+      <input id="q" class="search" type="search" placeholder="Search by text, file or rule…">
+      <div class="seg" id="f-cat">
+        <button data-v="all" class="on">All</button><button data-v="security">Security</button><button data-v="quality">Quality</button>
+      </div>
+      <div class="chips" id="f-sev"></div>
+      <span id="rcount" class="rcount"></span>
+      <label class="switch small"><input type="checkbox" id="f-sup"><span></span>Show ignored</label>
+    </section>
+    <section class="split">
+      <div class="tablewrap">
+        <table id="tbl"><thead><tr>
+          <th data-k="severity" style="width:96px">Severity</th><th data-k="name">Issue</th>
+          <th data-k="file" style="width:34%">Location</th><th data-k="category" style="width:92px">Type</th>
+        </tr></thead><tbody id="rows"></tbody></table>
+        <div id="empty" class="empty"><b>No results</b><span>Choose a folder and start a scan.</span></div>
+        <button id="totop" class="totop" hidden title="Back to top" aria-label="Back to top"><i data-ico="up"></i></button>
+      </div>
+      <aside id="detail" class="detail"><div class="empty"><b>No issue selected</b><span>Click a row to see its details.</span></div></aside>
+    </section>
+  </main>
+  <main id="view-set" hidden><div class="setscroll">
+    <section class="page" data-page="project"><header class="phead"><h1>Project</h1><button class="btn" id="s-browse">Change folder</button></header>
+      <div class="pbody"><p class="sub">The scanned folder and the data the scanner keeps inside it.</p>
+        <div class="panel"><div class="prow"><div><b>Scanned folder</b><span id="s-folder" class="sub mono">No folder</span></div></div>
+        <div class="prow"><div><b>Scan cache</b><span class="sub">Unchanged files are not re-read. Clear it to force a full analysis.</span></div><button class="btn" id="s-cache">Clear cache</button></div></div></div></section>
+    <section class="page" data-page="excluded" hidden><header class="phead"><h1>Excluded files</h1></header>
+      <div class="pbody"><p class="sub">Files and folders that are not read during a scan: tests, mock data, generated code.</p>
+        <div class="listbar"><input id="fx" class="search" type="search" placeholder="Search excluded files…"></div><div id="l-excl"></div></div></section>
+    <section class="page" data-page="ignored" hidden><header class="phead"><h1>Ignored issues</h1></header>
+      <div class="pbody"><p class="sub">Issues you have already reviewed: they remain in the code but do not count towards the score.</p>
+        <div class="listbar"><input id="fb" class="search" type="search" placeholder="Search ignored issues…"></div><div id="l-base"></div></div></section>
+    <section class="page" data-page="scan" hidden><header class="phead"><h1>Scanning</h1></header>
+      <div class="pbody"><p class="sub">How and what gets analyzed.</p>
+        <div class="panel"><div class="prow"><div><b>Continuous scanning</b><span class="sub">Automatically re-runs the analysis when files in the folder change.</span></div>
+          <label class="switch"><input type="checkbox" id="o-watch"><span></span></label></div>
+        <div class="prow"><div><b>Code quality check</b><span class="sub">Flags overly long or complex functions, swallowed errors and leftover debug statements. Takes effect from the next scan.</span></div>
+          <label class="switch"><input type="checkbox" id="o-quality" checked><span></span></label></div></div></div></section>
+    <section class="page" data-page="info" hidden><header class="phead"><h1>About</h1><button class="btn" id="i-open">Open data folder</button></header>
+      <div class="pbody"><p class="sub">Where the scanner stores its data.</p>
+        <div class="panel"><div class="prow"><div><b>Data folder</b><span id="i-data" class="sub mono"></span></div></div>
+        <div class="prow"><div><b>Crash log</b><span id="i-log" class="sub mono"></span></div></div>
+        <div class="prow"><div><b>Application log</b><span id="i-applog" class="sub mono"></span></div></div></div></div></section>
+  </div></main>
+</div>
+
+<div id="menu" class="menu" hidden></div>
+<div id="toast" class="toast" hidden></div>
+<div id="tip" class="tip" hidden></div>
+<div id="modal" class="modal" hidden><div class="dialog"></div></div>
+<script src="app.js"></script>
+</body>
+</html>
