@@ -1,0 +1,56 @@
+name: Build Windows installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install --upgrade -r requirements.txt
+      - name: Build executable (PyInstaller)
+        shell: cmd
+        run: >
+          pyinstaller --onefile --windowed --icon assets/icon.ico --collect-data reportlab
+          --collect-all tree_sitter --collect-all tree_sitter_javascript --collect-all tree_sitter_typescript
+          --collect-all tree_sitter_rust --collect-all tree_sitter_c --collect-all tree_sitter_cpp
+          --collect-all tree_sitter_go --collect-all tree_sitter_kotlin --collect-all tree_sitter_swift
+          --collect-all tree_sitter_java --collect-all tree_sitter_c_sharp --collect-all tree_sitter_php
+          --add-data "webui;webui" --name Nyxtral main.py
+      - name: Determine version
+        id: ver
+        shell: pwsh
+        run: |
+          if ("${{ github.ref_type }}" -eq "tag") { $v = "${{ github.ref_name }}".TrimStart("v") } else { $v = "0.0.0-dev" }
+          "version=$v" >> $env:GITHUB_OUTPUT
+      - name: Build installer (Inno Setup)
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=${{ steps.ver.outputs.version }}" installer.iss
+      - name: Build portable zip
+        shell: pwsh
+        run: Compress-Archive -Path dist\Nyxtral.exe -DestinationPath "installer_output\Nyxtral-Portable-${{ steps.ver.outputs.version }}.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nyxtral-release-files
+          path: installer_output/*
+      - name: Attach to GitHub release (tags only)
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            installer_output/Nyxtral-Setup-${{ steps.ver.outputs.version }}.exe
+            installer_output/Nyxtral-Portable-${{ steps.ver.outputs.version }}.zip

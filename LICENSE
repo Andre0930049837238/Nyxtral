@@ -1,0 +1,54 @@
+Nyxtral - Proprietary License
+
+Copyright (c) 2026 [Andre0930049837238]. All rights reserved.
+
+1. Ownership
+   Nyxtral, including its source code, executables, installer, documentation, name and logo
+   (the "Software"), is owned by the copyright holder named above (the "Owner"). The Software is
+   licensed, not sold. No rights are granted except those expressly stated in this license.
+
+2. Permitted use of the compiled program
+   You may download, install and run the compiled program (the setup or portable executable
+   published in the Releases section) on devices you own or control, for personal or internal
+   business use, free of charge, and scan any code that you are entitled to analyse.
+
+3. Source code
+   The source code is published for viewing and for the purposes of evaluation and security review
+   only. Without the Owner's prior written permission you may NOT:
+   a. copy, modify, merge, translate or create derivative works of the Software or its source code;
+   b. redistribute, sublicense, sell, rent, lease or publish the Software, its source code, or any
+   substantial part of it, in source or binary form, including modified builds;
+   c. use the Software, its source code, name or logo to build or offer a competing product or
+   service, or as training material for other software products;
+   d. remove or alter copyright, license or attribution notices;
+   e. use the name "Nyxtral" or its logo to identify any other product or project.
+   Nothing in this section limits rights that applicable law grants you and that cannot be
+   excluded by contract (for example, the right to interoperability analysis under mandatory law).
+
+4. Third-party components
+   The Software includes or depends on third-party components that are licensed under their own
+   terms (see THIRD_PARTY_NOTICES.md). Those terms apply to those components and are not changed by
+   this license.
+
+5. Findings and your responsibility
+   The Software is a static analysis aid. Its results may be incomplete or contain false positives
+   and do not replace a manual security review. You are responsible for the decisions you take
+   based on its output, and for having the right to analyse the code you scan.
+
+6. No warranty
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+   ACCURACY AND NON-INFRINGEMENT.
+
+7. Limitation of liability
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE OWNER SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES
+   OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM OR IN CONNECTION WITH
+   THE SOFTWARE OR ITS USE, INCLUDING MISSED VULNERABILITIES, DATA LOSS OR BUSINESS INTERRUPTION.
+
+8. Termination
+   This license terminates automatically if you breach it. On termination you must stop using the
+   Software and delete all copies.
+
+9. Contact
+   To request permission for any use not granted here, contact the Owner through the GitHub
+   repository (open an issue or use the contact details in the Owner's profile).
